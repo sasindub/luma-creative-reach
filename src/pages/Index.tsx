@@ -34,53 +34,150 @@ const Index = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={heroImage} 
-            alt="Creative digital agency workspace" 
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 gradient-hero opacity-90"></div>
+      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-modern">
+        {/* Animated Background Slides */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <div className="flex w-[400%] h-full" style={{ animation: 'slide 20s infinite' }}>
+            <div className="w-1/4 h-full relative">
+              <img 
+                src={videoProductionImg} 
+                alt="Video production behind the scenes" 
+                className="w-full h-full object-cover opacity-15"
+              />
+            </div>
+            <div className="w-1/4 h-full relative">
+              <img 
+                src={photographyImg} 
+                alt="Professional photography session" 
+                className="w-full h-full object-cover opacity-15"
+              />
+            </div>
+            <div className="w-1/4 h-full relative">
+              <img 
+                src={socialMediaImg} 
+                alt="Social media content creation" 
+                className="w-full h-full object-cover opacity-15"
+              />
+            </div>
+            <div className="w-1/4 h-full relative">
+              <img 
+                src={contentCreationImg} 
+                alt="Creative content design process" 
+                className="w-full h-full object-cover opacity-15"
+              />
+            </div>
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/90"></div>
+        </div>
+
+        {/* Modern Grid Pattern */}
+        <div className="absolute inset-0 z-5 opacity-5">
+          <div className="w-full h-full" style={{
+            backgroundImage: 'radial-gradient(circle, hsl(var(--luma-primary)) 1px, transparent 1px)',
+            backgroundSize: '60px 60px'
+          }}></div>
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="animate-fade-in-up">
-            <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
-              Bright Ideas,
-              <br />
-              <span className="text-gradient bg-white text-transparent bg-clip-text">Brilliant Results</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Your Story. Our Creativity. Infinite Reach.
-            </p>
-            <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto">
-              Next-generation creative powerhouse with 2M+ YouTube subscribers and 5M+ Facebook followers. 
-              We transform ideas into visuals, and visuals into influence.
-            </p>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen py-20">
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button variant="hero" size="lg" className="text-lg px-8 py-4">
-                <Play className="mr-2 h-5 w-5" />
-                Watch Our Reel
-              </Button>
-              <Button variant="glass" size="lg" className="text-lg px-8 py-4">
-                Explore Services
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+            {/* Left Content */}
+            <div className="text-left" style={{ animation: 'slideUp 1s ease-out' }}>
+              <div className="mb-6">
+                <span className="inline-block px-4 py-2 bg-luma-primary/10 text-luma-primary rounded-full text-sm font-medium border border-luma-primary/20 mb-6">
+                  Digital Creative Agency
+                </span>
+              </div>
+              
+              <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+                Bright Ideas,
+                <br />
+                <span className="text-gradient">Brilliant Results</span>
+              </h1>
+              
+              <p className="text-xl text-white/90 mb-6 max-w-lg">
+                Your Story. Our Creativity. Infinite Reach.
+              </p>
+              
+              <p className="text-lg text-white/70 mb-8 max-w-lg">
+                Next-generation creative powerhouse transforming ideas into visuals, and visuals into influence.
+              </p>
+
+              {/* Stats */}
+              <div className="flex flex-wrap gap-6 mb-8">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-luma-primary">2M+</div>
+                  <div className="text-sm text-white/60">YouTube Subscribers</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-luma-accent">5M+</div>
+                  <div className="text-sm text-white/60">Facebook Followers</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-luma-glow">500+</div>
+                  <div className="text-sm text-white/60">Projects</div>
+                </div>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button variant="hero" size="lg" className="text-lg px-8 py-4">
+                  <Play className="mr-2 h-5 w-5" />
+                  Watch Our Reel
+                </Button>
+                <Button variant="glass" size="lg" className="text-lg px-8 py-4">
+                  Explore Services
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Right Content - Work Showcase */}
+            <div className="relative" style={{ animation: 'slideUp 1s ease-out 0.3s both' }}>
+              <div className="relative">
+                {/* Main showcase image */}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl transform rotate-3 hover:rotate-0 transition-smooth">
+                  <img 
+                    src={portfolioShowcase} 
+                    alt="LUMA creative portfolio showcase" 
+                    className="w-full h-96 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <h3 className="text-xl font-bold mb-1">Latest Campaign</h3>
+                    <p className="text-white/80 text-sm">Award-winning creativity</p>
+                  </div>
+                </div>
+
+                {/* Floating work samples */}
+                <div className="absolute -top-8 -right-8 w-32 h-32 rounded-2xl overflow-hidden shadow-xl animate-float border-4 border-white/20">
+                  <img 
+                    src={videoProductionImg} 
+                    alt="Video work sample" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-2xl overflow-hidden shadow-xl animate-float border-4 border-white/20" style={{ animationDelay: '1s' }}>
+                  <img 
+                    src={socialMediaImg} 
+                    alt="Social media work sample" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-10 animate-float">
-          <Camera className="h-12 w-12 text-white/30" />
+        {/* Modern floating elements */}
+        <div className="absolute top-1/4 right-10 animate-float opacity-20">
+          <div className="w-2 h-2 bg-luma-primary rounded-full"></div>
         </div>
-        <div className="absolute bottom-20 right-10 animate-float" style={{ animationDelay: '2s' }}>
-          <Video className="h-16 w-16 text-white/30" />
+        <div className="absolute bottom-1/4 left-20 animate-float opacity-30" style={{ animationDelay: '2s' }}>
+          <div className="w-3 h-3 bg-luma-accent rounded-full"></div>
         </div>
-        <div className="absolute top-1/2 left-5 animate-float" style={{ animationDelay: '1s' }}>
-          <Megaphone className="h-10 w-10 text-white/30" />
+        <div className="absolute top-1/2 right-1/4 animate-float opacity-25" style={{ animationDelay: '1s' }}>
+          <div className="w-1 h-1 bg-luma-glow rounded-full"></div>
         </div>
       </section>
 

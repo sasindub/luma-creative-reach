@@ -36,15 +36,16 @@ All colors MUST be HSL.
     --input: 220 13% 91%;
     --ring: 256 75% 65%;
     
-    /* LUMA Brand Colors - Professional Theme */
-    --luma-primary: 220 100% 60%;
-    --luma-secondary: 280 100% 70%;
-    --luma-accent: 200 100% 55%;
-    --luma-glow: 45 100% 60%;
+    /* LUMA Modern Brand Colors */
+    --luma-primary: 230 85% 65%;
+    --luma-secondary: 270 80% 70%;
+    --luma-accent: 190 85% 60%;
+    --luma-glow: 40 95% 65%;
     
-    /* Gradients - More Professional */
-    --gradient-primary: linear-gradient(135deg, hsl(220 100% 60%), hsl(280 100% 70%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 100% 60%) 0%, hsl(200 100% 55%) 50%, hsl(280 100% 70%) 100%);
+    /* Modern Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(230 85% 65%), hsl(270 80% 70%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 25% 5%) 0%, hsl(230 85% 65% / 0.1) 50%, hsl(270 80% 70% / 0.05) 100%);
+    --gradient-modern: linear-gradient(135deg, hsl(220 25% 8%) 0%, hsl(220 30% 12%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(210 40% 98%) 100%);
     
     /* Shadows */
@@ -132,6 +133,10 @@ All colors MUST be HSL.
     background: var(--gradient-hero);
   }
   
+  .gradient-modern {
+    background: var(--gradient-modern);
+  }
+  
   .gradient-subtle {
     background: var(--gradient-subtle);
   }
@@ -185,4 +190,27 @@ All colors MUST be HSL.
 @keyframes glow {
   from { box-shadow: 0 0 20px hsl(var(--luma-primary) / 0.3); }
   to { box-shadow: 0 0 30px hsl(var(--luma-primary) / 0.6); }
+}
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(0); }
+  25% { transform: translateX(-100%); }
+  45% { transform: translateX(-100%); }
+  50% { transform: translateX(-200%); }
+  70% { transform: translateX(-200%); }
+  75% { transform: translateX(-300%); }
+  95% { transform: translateX(-300%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes slideUp {
+  0% { 
+    opacity: 0;
+    transform: translateY(60px) scale(0.9);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

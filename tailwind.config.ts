@@ -145,7 +145,9 @@ export default {
 				'fade-in': 'fade-in 0.6s ease-out',
 				'fade-in-up': 'fade-in-up 0.6s ease-out',
 				'slide-in-right': 'slide-in-right 0.6s ease-out',
-				'bounce-in': 'bounce-in 0.8s ease-out'
+				'bounce-in': 'bounce-in 0.8s ease-out',
+				'slide': 'slide 20s infinite',
+				'slide-up': 'slideUp 1s ease-out'
 			}
 		}
 	},
