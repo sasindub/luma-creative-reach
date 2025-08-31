@@ -1,6 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, Camera, Video, Megaphone, Palette } from "lucide-react";
+import { ArrowRight, Play, Camera, Video, Megaphone, Palette, Users, Award, Star } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
+import videoProductionImg from "@/assets/video-production.jpg";
+import photographyImg from "@/assets/photography-work.jpg";
+import socialMediaImg from "@/assets/social-media-work.jpg";
+import contentCreationImg from "@/assets/content-creation.jpg";
+import companyLogos from "@/assets/company-logos.jpg";
+import portfolioShowcase from "@/assets/portfolio-showcase.jpg";
 
 const Index = () => {
   return (
@@ -127,6 +133,162 @@ const Index = () => {
                 <p className="text-muted-foreground">{service.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio/Showcase Section */}
+      <section id="portfolio" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Our <span className="text-gradient">Creative</span> Work
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Showcasing our latest projects and creative campaigns that have delivered exceptional results.
+            </p>
+          </div>
+
+          {/* Featured Portfolio */}
+          <div className="mb-16">
+            <div className="relative rounded-3xl overflow-hidden shadow-elegant animate-fade-in">
+              <img 
+                src={portfolioShowcase} 
+                alt="LUMA creative portfolio showcase featuring multiple commercial videos and campaigns" 
+                className="w-full h-96 md:h-[600px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+              <div className="absolute bottom-8 left-8 text-white">
+                <h3 className="text-3xl font-bold mb-2">Commercial Video Production</h3>
+                <p className="text-lg text-white/90">Award-winning campaigns for leading brands</p>
+              </div>
+              <Button variant="glass" className="absolute bottom-8 right-8">
+                <Play className="mr-2 h-4 w-4" />
+                Watch Showreel
+              </Button>
+            </div>
+          </div>
+
+          {/* Service Showcases */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              {
+                image: videoProductionImg,
+                title: "Video Production Excellence",
+                description: "Behind-the-scenes of our professional video production process",
+                stats: "50+ Videos Produced Monthly"
+              },
+              {
+                image: photographyImg,
+                title: "Professional Photography",
+                description: "High-end commercial and portrait photography sessions",
+                stats: "200+ Photo Shoots Completed"
+              },
+              {
+                image: socialMediaImg,
+                title: "Social Media Mastery",
+                description: "Data-driven social media campaigns with proven ROI",
+                stats: "7M+ Total Reach Achieved"
+              },
+              {
+                image: contentCreationImg,
+                title: "Creative Content Design",
+                description: "Brand storytelling through innovative digital content",
+                stats: "100+ Brands Served"
+              }
+            ].map((item, index) => (
+              <div 
+                key={item.title}
+                className="group relative rounded-2xl overflow-hidden shadow-elegant hover:shadow-glow transition-smooth animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <img 
+                  src={item.image} 
+                  alt={item.description}
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-smooth"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                  <p className="text-white/90 mb-2">{item.description}</p>
+                  <div className="flex items-center text-luma-accent font-medium">
+                    <Star className="h-4 w-4 mr-1" />
+                    {item.stats}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Collaborations Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Trusted by <span className="text-gradient">Leading</span> Brands
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              We've collaborated with innovative companies across industries to create impactful digital experiences.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="animate-fade-in-up">
+              <img 
+                src={companyLogos} 
+                alt="LUMA collaboration partners and client company logos" 
+                className="w-full rounded-2xl shadow-elegant"
+              />
+            </div>
+            
+            <div className="animate-slide-in-right">
+              <h3 className="text-3xl font-bold text-foreground mb-6">
+                Partnership Excellence
+              </h3>
+              <p className="text-lg text-muted-foreground mb-8">
+                From startups to Fortune 500 companies, we've partnered with diverse brands to deliver 
+                exceptional creative solutions that drive real business results.
+              </p>
+              
+              <div className="space-y-6">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 w-12 h-12 bg-luma-primary/10 rounded-lg flex items-center justify-center mr-4">
+                    <Users className="h-6 w-6 text-luma-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground mb-2">Global Reach</h4>
+                    <p className="text-muted-foreground">Collaborated with brands across 15+ countries</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 w-12 h-12 bg-luma-secondary/10 rounded-lg flex items-center justify-center mr-4">
+                    <Award className="h-6 w-6 text-luma-secondary" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground mb-2">Award-Winning Work</h4>
+                    <p className="text-muted-foreground">Recognized for creative excellence and innovation</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 w-12 h-12 bg-luma-accent/10 rounded-lg flex items-center justify-center mr-4">
+                    <Star className="h-6 w-6 text-luma-accent" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground mb-2">Client Satisfaction</h4>
+                    <p className="text-muted-foreground">98% client retention rate with 5-star reviews</p>
+                  </div>
+                </div>
+              </div>
+              
+              <Button variant="luma" size="lg" className="mt-8">
+                Become Our Partner
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </section>
