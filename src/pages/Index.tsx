@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, Camera, Video, Megaphone, Palette, Users, Award, Star } from "lucide-react";
+import { ArrowRight, Play, Camera, Video, Megaphone, Palette, Users, Award, Star, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import heroImage from "@/assets/hero-image.jpg";
@@ -32,12 +32,18 @@ const ScrollAnimatedSection = ({ children, delay = 0 }: { children: React.ReactN
 const Index = () => {
   const [isInHeroSection, setIsInHeroSection] = useState(true);
   const [showNavbar, setShowNavbar] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      
+      // Close mobile menu on scroll
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
       
       // Check if in hero section
       const heroSection = document.getElementById('home');
@@ -63,7 +69,7 @@ const Index = () => {
     handleScroll(); // Check initial position
     
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobileMenuOpen]);
 
   const handleWhatsAppClick = () => {
     const phoneNumber = '94766624637';
@@ -100,8 +106,76 @@ const Index = () => {
                 LUMA Photography
               </Button>
             </div>
+
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`md:hidden ${isInHeroSection ? 'text-white' : 'text-foreground'}`}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden animate-in slide-in-from-top duration-300">
+            <div className="px-4 py-4 space-y-3 bg-white/10 backdrop-blur-md border-t border-white/10">
+            <a
+              href="#home"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block py-2 ${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}
+            >
+              Home
+            </a>
+            <a
+              href="#about"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block py-2 ${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}
+            >
+              About
+            </a>
+            <a
+              href="#services"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block py-2 ${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}
+            >
+              Services
+            </a>
+            <a
+              href="#portfolio"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block py-2 ${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}
+            >
+              Portfolio
+            </a>
+            <a
+              href="#contact"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block py-2 ${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}
+            >
+              Contact
+            </a>
+            <div className="pt-3 space-y-2">
+              <Button variant="luma" size="sm" className="w-full">
+                Book Now <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={`w-full ${isInHeroSection ? 'bg-black border-black text-white hover:bg-black/80 hover:text-white' : 'border-foreground text-foreground hover:bg-foreground hover:text-white'}`}
+              >
+                LUMA Photography
+              </Button>
+            </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* WhatsApp Floating Button */}
@@ -172,29 +246,29 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen py-20">
             
             {/* Left Content */}
-            <div className="text-left" style={{ animation: 'slideUp 1s ease-out' }}>
+            <div className="text-left text-center lg:text-left" style={{ animation: 'slideUp 1s ease-out' }}>
               <div className="mb-6">
                 <span className="inline-block px-4 py-2 bg-luma-primary/10 text-luma-primary rounded-full text-sm font-medium border border-luma-primary/20 mb-6">
                   Digital Creative Agency
                 </span>
               </div>
               
-              <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
                 Bright Ideas,
                 <br />
                 <span className="text-gradient">Brilliant Results</span>
               </h1>
               
-              <p className="text-xl text-white/90 mb-6 max-w-lg">
+              <p className="text-lg sm:text-xl text-white/90 mb-6 max-w-lg mx-auto lg:mx-0">
                 Your Story. Our Creativity. Infinite Reach.
               </p>
               
-              <p className="text-lg text-white/70 mb-8 max-w-lg">
+              <p className="text-base sm:text-lg text-white/70 mb-8 max-w-lg mx-auto lg:mx-0">
                 Next-generation creative powerhouse transforming ideas into visuals, and visuals into influence.
               </p>
 
               {/* Stats */}
-              <div className="flex flex-wrap gap-6 mb-8">
+              <div className="flex flex-wrap gap-6 mb-8 justify-center lg:justify-start">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-luma-primary">2M+</div>
                   <div className="text-sm text-white/60">YouTube Subscribers</div>
@@ -221,8 +295,8 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Right Content - Work Showcase */}
-            <div className="relative" style={{ animation: 'slideUp 1s ease-out 0.3s both' }}>
+            {/* Right Content - Work Showcase - Hidden on mobile */}
+            <div className="hidden lg:block relative" style={{ animation: 'slideUp 1s ease-out 0.3s both' }}>
               <div className="relative">
                 {/* Main showcase image */}
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl transform rotate-3 hover:rotate-0 transition-smooth">
