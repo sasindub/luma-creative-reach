@@ -137,6 +137,16 @@ export default {
 						opacity: '1',
 						transform: 'scale(1)'
 					}
+				},
+				'whatsapp-pulse': {
+					'0%, 100%': {
+						transform: 'scale(1)',
+						boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)'
+					},
+					'50%': {
+						transform: 'scale(1.05)',
+						boxShadow: '0 6px 16px rgba(37, 211, 102, 0.5)'
+					}
 				}
 			},
 			animation: {
@@ -146,6 +156,7 @@ export default {
 				'fade-in-up': 'fade-in-up 0.6s ease-out',
 				'slide-in-right': 'slide-in-right 0.6s ease-out',
 				'bounce-in': 'bounce-in 0.8s ease-out',
+				'whatsapp-pulse': 'whatsapp-pulse 4s ease-in-out infinite',
 				'slide': 'slide 20s infinite',
 				'slide-up': 'slideUp 1s ease-out'
 			}
