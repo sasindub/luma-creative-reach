@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, Camera, Video, Megaphone, Palette, Users, Award, Star } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import heroImage from "@/assets/hero-image.jpg";
 import videoProductionImg from "@/assets/video-production.jpg";
 import photographyImg from "@/assets/photography-work.jpg";
@@ -8,30 +10,118 @@ import contentCreationImg from "@/assets/content-creation.jpg";
 import companyLogos from "@/assets/company-logos.jpg";
 import portfolioShowcase from "@/assets/portfolio-showcase.jpg";
 
+// Scroll Animation Component
+const ScrollAnimatedSection = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
+  const { ref, isVisible } = useScrollAnimation();
+  
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${
+        isVisible
+          ? 'opacity-100 translate-y-0'
+          : 'opacity-0 translate-y-10'
+      }`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+};
+
 const Index = () => {
+  const [isInHeroSection, setIsInHeroSection] = useState(true);
+  const [showNavbar, setShowNavbar] = useState(true);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Check if in hero section
+      const heroSection = document.getElementById('home');
+      if (heroSection) {
+        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+        const scrollPosition = currentScrollY + 100;
+        setIsInHeroSection(scrollPosition < heroBottom);
+      }
+
+      // Show/hide navbar based on scroll direction
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down & past 100px
+        setShowNavbar(false);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setShowNavbar(true);
+      }
+      
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check initial position
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleWhatsAppClick = () => {
+    const phoneNumber = '94766624637';
+    const message = encodeURIComponent('Hi Luma, I want to know more details.');
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-hero-pattern">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/10 backdrop-blur-md border-b border-white/10">
+      <nav className={`fixed top-0 w-full z-50 bg-white/10 backdrop-blur-md border-b border-white/10 transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gradient">LUMA</h1>
-              <span className="ml-2 text-sm text-muted-foreground">(PVT) LTD</span>
+              <h1 className={`text-2xl font-bold ${isInHeroSection ? 'text-white' : 'text-gradient'}`}>LUMA</h1>
+              <span className={`ml-2 text-sm ${isInHeroSection ? 'text-white/80' : 'text-muted-foreground'}`}>(PVT) LTD</span>
             </div>
             <div className="hidden md:flex space-x-8">
-              <a href="#home" className="text-foreground hover:text-luma-primary transition-smooth">Home</a>
-              <a href="#about" className="text-foreground hover:text-luma-primary transition-smooth">About</a>
-              <a href="#services" className="text-foreground hover:text-luma-primary transition-smooth">Services</a>
-              <a href="#portfolio" className="text-foreground hover:text-luma-primary transition-smooth">Portfolio</a>
-              <a href="#contact" className="text-foreground hover:text-luma-primary transition-smooth">Contact</a>
+              <a href="#home" className={`${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}>Home</a>
+              <a href="#about" className={`${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}>About</a>
+              <a href="#services" className={`${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}>Services</a>
+              <a href="#portfolio" className={`${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}>Portfolio</a>
+              <a href="#contact" className={`${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}>Contact</a>
             </div>
-            <Button variant="luma" size="sm" className="hidden md:flex">
-              Get Started <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <div className="hidden md:flex gap-3">
+              <Button variant="luma" size="sm">
+                Book Now <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={`${isInHeroSection ? 'bg-black border-black text-white hover:bg-black/80 hover:text-white' : 'border-foreground text-foreground hover:bg-foreground hover:text-white'}`}
+              >
+                LUMA Photography
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
+
+      {/* WhatsApp Floating Button */}
+      <button
+        onClick={handleWhatsAppClick}
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-full shadow-lg hover:shadow-xl flex items-center justify-center group hover:scale-110 transition-all duration-300"
+        aria-label="Chat on WhatsApp"
+      >
+        <svg 
+          className="w-7 h-7" 
+          fill="currentColor" 
+          viewBox="0 0 24 24" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+        <span className="absolute right-16 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+          Chat with us
+        </span>
+      </button>
 
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-modern">
@@ -67,7 +157,7 @@ const Index = () => {
               />
             </div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>
         </div>
 
         {/* Modern Grid Pattern */}
@@ -184,14 +274,16 @@ const Index = () => {
       {/* Services Preview */}
       <section id="services" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Our <span className="text-gradient">Creative</span> Services
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              From cinematic visuals to viral campaigns, we provide end-to-end digital solutions.
-            </p>
-          </div>
+          <ScrollAnimatedSection>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+                Our <span className="text-gradient">Creative</span> Services
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                From cinematic visuals to viral campaigns, we provide end-to-end digital solutions.
+              </p>
+            </div>
+          </ScrollAnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -220,15 +312,13 @@ const Index = () => {
                 color: "text-luma-glow"
               }
             ].map((service, index) => (
-              <div 
-                key={service.title}
-                className="group p-8 rounded-2xl bg-gradient-subtle border border-border hover:shadow-elegant transition-smooth cursor-pointer animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <service.icon className={`h-12 w-12 ${service.color} mb-6 group-hover:scale-110 transition-bounce`} />
-                <h3 className="text-xl font-semibold text-foreground mb-4">{service.title}</h3>
-                <p className="text-muted-foreground">{service.description}</p>
-              </div>
+              <ScrollAnimatedSection key={service.title} delay={index * 100}>
+                <div className="group p-8 rounded-2xl bg-gradient-subtle border border-border hover:shadow-elegant transition-smooth cursor-pointer">
+                  <service.icon className={`h-12 w-12 ${service.color} mb-6 group-hover:scale-110 transition-bounce`} />
+                  <h3 className="text-xl font-semibold text-foreground mb-4">{service.title}</h3>
+                  <p className="text-muted-foreground">{service.description}</p>
+                </div>
+              </ScrollAnimatedSection>
             ))}
           </div>
         </div>
@@ -237,18 +327,21 @@ const Index = () => {
       {/* Portfolio/Showcase Section */}
       <section id="portfolio" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Our <span className="text-gradient">Creative</span> Work
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Showcasing our latest projects and creative campaigns that have delivered exceptional results.
-            </p>
-          </div>
+          <ScrollAnimatedSection>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+                Our <span className="text-gradient">Creative</span> Work
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Showcasing our latest projects and creative campaigns that have delivered exceptional results.
+              </p>
+            </div>
+          </ScrollAnimatedSection>
 
           {/* Featured Portfolio */}
-          <div className="mb-16">
-            <div className="relative rounded-3xl overflow-hidden shadow-elegant animate-fade-in">
+          <ScrollAnimatedSection>
+            <div className="mb-16">
+              <div className="relative rounded-3xl overflow-hidden shadow-elegant">
               <img 
                 src={portfolioShowcase} 
                 alt="LUMA creative portfolio showcase featuring multiple commercial videos and campaigns" 
@@ -263,8 +356,9 @@ const Index = () => {
                 <Play className="mr-2 h-4 w-4" />
                 Watch Showreel
               </Button>
+              </div>
             </div>
-          </div>
+          </ScrollAnimatedSection>
 
           {/* Service Showcases */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -294,26 +388,24 @@ const Index = () => {
                 stats: "100+ Brands Served"
               }
             ].map((item, index) => (
-              <div 
-                key={item.title}
-                className="group relative rounded-2xl overflow-hidden shadow-elegant hover:shadow-glow transition-smooth animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <img 
-                  src={item.image} 
-                  alt={item.description}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-smooth"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                  <p className="text-white/90 mb-2">{item.description}</p>
-                  <div className="flex items-center text-luma-accent font-medium">
-                    <Star className="h-4 w-4 mr-1" />
-                    {item.stats}
+              <ScrollAnimatedSection key={item.title} delay={index * 100}>
+                <div className="group relative rounded-2xl overflow-hidden shadow-elegant hover:shadow-glow transition-smooth">
+                  <img 
+                    src={item.image} 
+                    alt={item.description}
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-smooth"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                    <p className="text-white/90 mb-2">{item.description}</p>
+                    <div className="flex items-center text-luma-accent font-medium">
+                      <Star className="h-4 w-4 mr-1" />
+                      {item.stats}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ScrollAnimatedSection>
             ))}
           </div>
         </div>
@@ -322,25 +414,27 @@ const Index = () => {
       {/* Collaborations Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Trusted by <span className="text-gradient">Leading</span> Brands
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              We've collaborated with innovative companies across industries to create impactful digital experiences.
-            </p>
-          </div>
+          <ScrollAnimatedSection>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+                Trusted by <span className="text-gradient">Leading</span> Brands
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                We've collaborated with innovative companies across industries to create impactful digital experiences.
+              </p>
+            </div>
+          </ScrollAnimatedSection>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in-up">
+            <ScrollAnimatedSection>
               <img 
                 src={companyLogos} 
                 alt="LUMA collaboration partners and client company logos" 
                 className="w-full rounded-2xl shadow-elegant"
               />
-            </div>
+            </ScrollAnimatedSection>
             
-            <div className="animate-slide-in-right">
+            <ScrollAnimatedSection delay={200}>
               <h3 className="text-3xl font-bold text-foreground mb-6">
                 Partnership Excellence
               </h3>
@@ -385,7 +479,7 @@ const Index = () => {
                 Become Our Partner
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-            </div>
+            </ScrollAnimatedSection>
           </div>
         </div>
       </section>
@@ -412,7 +506,7 @@ const Index = () => {
       <section id="about" className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in-up">
+            <ScrollAnimatedSection>
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
                 Where <span className="text-gradient">Creativity</span> Meets Strategy
               </h2>
@@ -428,9 +522,9 @@ const Index = () => {
                 Learn More About Us
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-            </div>
+            </ScrollAnimatedSection>
             
-            <div className="animate-slide-in-right">
+            <ScrollAnimatedSection delay={200}>
               <div className="bg-gradient-subtle rounded-3xl p-8 shadow-elegant">
                 <h3 className="text-2xl font-bold text-foreground mb-6">Our Vision</h3>
                 <p className="text-muted-foreground mb-6">
@@ -452,7 +546,7 @@ const Index = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </ScrollAnimatedSection>
           </div>
         </div>
       </section>
@@ -460,7 +554,7 @@ const Index = () => {
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-foreground text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="animate-fade-in">
+          <ScrollAnimatedSection>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Ready to Create <span className="text-gradient bg-white text-transparent bg-clip-text">Magic</span>?
             </h2>
@@ -477,7 +571,7 @@ const Index = () => {
                 View Portfolio
               </Button>
             </div>
-          </div>
+          </ScrollAnimatedSection>
         </div>
       </section>
 
