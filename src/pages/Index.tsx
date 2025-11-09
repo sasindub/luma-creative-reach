@@ -9,7 +9,7 @@ import socialMediaImg from "@/assets/social-media-work.jpg";
 import contentCreationImg from "@/assets/content-creation.jpg";
 import companyLogos from "@/assets/Clients.jpg";
 import portfolioShowcase from "@/assets/portfolio-showcase.jpg";
-import logoWhite from "@/assets/logoWhite.png";
+import logoRedWhite from "@/assets/logoRedWhite.png";
 import logoBlackRed from "@/assets/logoBlackRed.png";
 
 // Scroll Animation Component
@@ -86,7 +86,7 @@ const Index = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <img 
-                src={isInHeroSection ? logoWhite : logoBlackRed} 
+                src={isInHeroSection ? logoRedWhite : logoBlackRed} 
                 alt="LUMA" 
                 className="h-10 w-auto"
               />
