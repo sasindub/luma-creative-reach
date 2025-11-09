@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, Camera, Video, Megaphone, Palette, Users, Award, Star } from "lucide-react";
+import { ArrowRight, Play, Camera, Video, Megaphone, Palette, Users, Award, Star, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import heroImage from "@/assets/hero-image.jpg";
@@ -7,8 +7,10 @@ import videoProductionImg from "@/assets/video-production.jpg";
 import photographyImg from "@/assets/photography-work.jpg";
 import socialMediaImg from "@/assets/social-media-work.jpg";
 import contentCreationImg from "@/assets/content-creation.jpg";
-import companyLogos from "@/assets/company-logos.jpg";
+import companyLogos from "@/assets/Clients.jpg";
 import portfolioShowcase from "@/assets/portfolio-showcase.jpg";
+import logoWhite from "@/assets/logoWhite.png";
+import logoBlackRed from "@/assets/logoBlackRed.png";
 
 // Scroll Animation Component
 const ScrollAnimatedSection = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
@@ -32,12 +34,18 @@ const ScrollAnimatedSection = ({ children, delay = 0 }: { children: React.ReactN
 const Index = () => {
   const [isInHeroSection, setIsInHeroSection] = useState(true);
   const [showNavbar, setShowNavbar] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      
+      // Close mobile menu on scroll
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
       
       // Check if in hero section
       const heroSection = document.getElementById('home');
@@ -60,10 +68,9 @@ const Index = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Check initial position
     
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobileMenuOpen]);
 
   const handleWhatsAppClick = () => {
     const phoneNumber = '94766624637';
@@ -78,8 +85,11 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className={`text-2xl font-bold ${isInHeroSection ? 'text-white' : 'text-gradient'}`}>LUMA</h1>
-              <span className={`ml-2 text-sm ${isInHeroSection ? 'text-white/80' : 'text-muted-foreground'}`}>(PVT) LTD</span>
+              <img 
+                src={isInHeroSection ? logoWhite : logoBlackRed} 
+                alt="LUMA" 
+                className="h-10 w-auto"
+              />
             </div>
             <div className="hidden md:flex space-x-8">
               <a href="#home" className={`${isInHeroSection ? 'text-white hover:text-white/80' : 'text-foreground hover:text-luma-primary'} transition-smooth`}>Home</a>
@@ -100,7 +110,73 @@ const Index = () => {
                 LUMA Photography
               </Button>
             </div>
+
+            {/* Mobile menu button - ONLY VISIBLE ON MOBILE */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`md:hidden ${isInHeroSection ? 'text-white' : 'text-foreground'}`}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
           </div>
+
+          {/* Mobile menu - ONLY VISIBLE ON MOBILE */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden py-4 px-4 space-y-3 bg-gray-900/95 backdrop-blur-md border-t border-white/20 shadow-lg">
+              <a
+                href="#home"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block py-2 text-white hover:text-luma-primary transition-smooth font-medium"
+              >
+                Home
+              </a>
+              <a
+                href="#about"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block py-2 text-white hover:text-luma-primary transition-smooth font-medium"
+              >
+                About
+              </a>
+              <a
+                href="#services"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block py-2 text-white hover:text-luma-primary transition-smooth font-medium"
+              >
+                Services
+              </a>
+              <a
+                href="#portfolio"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block py-2 text-white hover:text-luma-primary transition-smooth font-medium"
+              >
+                Portfolio
+              </a>
+              <a
+                href="#contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block py-2 text-white hover:text-luma-primary transition-smooth font-medium"
+              >
+                Contact
+              </a>
+              <div className="pt-3 space-y-2 border-t border-white/20">
+                <Button variant="luma" size="sm" className="w-full">
+                  Book Now <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full bg-transparent border-white text-white hover:bg-white hover:text-gray-900"
+                >
+                  LUMA Photography
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
